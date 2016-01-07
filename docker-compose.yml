@@ -1,25 +1,25 @@
-postgresql:
-  restart: always
-  image: sameersbn/postgresql:9.4-11
-  environment:
-    - DB_USER=gitlab
-    - DB_PASS=password
-    - DB_NAME=gitlabhq_production
-  volumes:
-    - /srv/docker/gitlab/postgresql:/var/lib/postgresql
+#postgresql:
+#  restart: always
+#  image: sameersbn/postgresql:9.4-11
+#  environment:
+#    - DB_USER=gitlab
+#    - DB_PASS=password
+#    - DB_NAME=gitlabhq_bastien_test
+#  volumes:
+#    - /srv/docker/gitlab/postgresql:/var/lib/postgresql
 gitlab:
   restart: always
   image: sameersbn/gitlab:8.3.2
   links:
     - redis:redisio
-    - postgresql:postgresql
+#    - postgresql:postgresql
   ports:
     - "10080:80"
     - "10022:22"
   environment:
-    - DEBUG=false
-    - TZ=Asia/Kolkata
-    - GITLAB_TIMEZONE=Kolkata
+    - DEBUG=true
+    - TZ=Europe/Paris
+    - GITLAB_TIMEZONE=Paris
 
     - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
 
@@ -28,12 +28,19 @@ gitlab:
     - GITLAB_SSH_PORT=10022
     - GITLAB_RELATIVE_URL_ROOT=
 
+    # Added block for external postgresql database
+    - DB_ADAPTER=postgresql
+    - DB_HOST=192.168.1.117
+    - DB_NAME=gitlab
+    - DB_USER=gitlab
+    - DB_PASS=password
+
     - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
     - GITLAB_NOTIFY_PUSHER=false
 
-    - GITLAB_EMAIL=notifications@example.com
-    - GITLAB_EMAIL_REPLY_TO=noreply@example.com
-    - GITLAB_INCOMING_EMAIL_ADDRESS=reply@example.com
+    - GITLAB_EMAIL=bastien.sevajol@algoo.fr
+    - GITLAB_EMAIL_REPLY_TO=bastien.sevajol@algoo.fr
+    - GITLAB_INCOMING_EMAIL_ADDRESS=bastien.sevajol@algoo.fr
 
     - GITLAB_BACKUP_SCHEDULE=daily
     - GITLAB_BACKUP_TIME=01:00

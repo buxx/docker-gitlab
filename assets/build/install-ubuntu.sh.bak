@@ -8,11 +8,10 @@ GITLAB_WORKHORSE_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse.git
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
 BUILD_DEPENDENCIES="gcc g++ make patch pkg-config cmake paxctl \
-  libc6-dev ruby2.1-dev \
+  libc6-dev ruby2.1-dev golang-go \
   libmysqlclient-dev libpq-dev zlib1g-dev libyaml-dev libssl-dev \
   libgdbm-dev libreadline-dev libncurses5-dev libffi-dev \
-  libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev \
-  sudo libkrb5-dev"
+  libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev"
 
 ## Execute a command as GITLAB_USER
 exec_as_git() {
@@ -24,16 +23,8 @@ exec_as_git() {
 }
 
 # ppa for golang1.5
-#apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv B0B8B106A0CA2F79FBB616DBA65E2E5D742A38EE
-#echo "deb http://ppa.launchpad.net/evarlast/golang1.5/ubuntu trusty main" >> /etc/apt/sources.list
-
-# backports for golang1.5
-echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list.d/backports.list
-apt-get update
-apt-cache policy golang-go
-DEBIAN_FRONTEND=noninteractive apt-get install -y golang-go=2:1.5.* golang-src=2:1.5.*
-rm /etc/apt/sources.list.d/backports.list
-apt-get update
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv B0B8B106A0CA2F79FBB616DBA65E2E5D742A38EE
+echo "deb http://ppa.launchpad.net/evarlast/golang1.5/ubuntu trusty main" >> /etc/apt/sources.list
 
 # install build dependencies for gem installation
 apt-get update
@@ -317,6 +308,5 @@ stderr_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 EOF
 
 # purge build dependencies and cleanup apt
-export SUDO_FORCE_REMOVE=yes
 apt-get purge -y --auto-remove ${BUILD_DEPENDENCIES}
 rm -rf /var/lib/apt/lists/*
