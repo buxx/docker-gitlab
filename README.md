@@ -1,8 +1,8 @@
 [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab) [![](https://badge.imagelayers.io/sameersbn/gitlab.svg)](https://imagelayers.io/?images=sameersbn/gitlab:latest 'Get your own badge on imagelayers.io')
 
-[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
+**This is an modifed version of https://github.com/sameersbn/docker-gitlab, please use it instead**
 
-# sameersbn/gitlab:8.3.2
+# buxx/gitlab:8.3.2
 
 - [Introduction](#introduction)
     - [Changelog](Changelog.md)
